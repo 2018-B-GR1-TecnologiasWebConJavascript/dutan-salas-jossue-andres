@@ -1,0 +1,9 @@
+{
+  "nombre": "Jossué",
+  "edad": 22,
+  "casado": null,
+  "tieneHijos": false,
+  "mascotas": {
+    "nombre": "Nevada"
+  }
+}
