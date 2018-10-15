@@ -55,7 +55,7 @@ if(true){
 }
 
 //Truthy: cualquier números menos 0, strings, un objeto cualquiera, nueva instancia
-//Falsy: string vacío, null, undefined
+//Falsy: string vacío, null, undefined  
 
 
 
