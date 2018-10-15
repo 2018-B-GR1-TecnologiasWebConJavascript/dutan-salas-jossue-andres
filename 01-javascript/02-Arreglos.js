@@ -63,5 +63,27 @@ var arregloSiguientesNumeros = [11,12,13,14,15]
 arregloTotal.splice(arregloTotal.length,0,...arregloSiguientesNumeros);
 console.log(arregloTotal);
 
+//Destructuración de Objetos...
 
-
+var vicente = {
+    nombre: "Vicente",
+    apellido: "Eguez"
+};
+var eguez = {
+    sueldo: 1.10
+};
+var adrian = {
+    edad: 20,
+    casado: false,
+    hijos: null,
+    mascota: {
+        nombre: "Cachetes"
+    }
+};
+var vicenteAdrianEguez = {
+    ...vicente,
+    ...adrian,
+    ...eguez,
+    sueldo:2.01
+};
+console.log(vicenteAdrianEguez);

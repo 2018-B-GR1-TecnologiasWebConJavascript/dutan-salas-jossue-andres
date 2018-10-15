@@ -48,5 +48,31 @@ function calcularResultadoSumaDeNumeros(numeros){
     return resultado
 }
 
-console.log(sumarNNumeros(true,0,1,2));
+console.log(sumarNNumeros(true,0,1,2)); //si no encuentra un número devuelve 0
 
+function saludar(nombre, funcion){
+    return `Hola ${funcion(nombre)}`;
+}
+
+console.log(saludar("jOsSUé", nombreMayusculas)); //mandar a la función como parámetro
+console.log(saludar("jOsSUé", nombreMinusculas)); //mandar a la función como parámetro
+console.log(saludar("jOsSUé", nombrepuntoAlFinal)); //mandar a la función como parámetro
+
+function nombreMayusculas(nombre) {
+    return nombre.toUpperCase();
+}
+function nombreMinusculas(nombre) {
+    return nombre.toLowerCase();
+}
+function nombrepuntoAlFinal(nombre) {
+    return nombre + ".";
+}
+
+var arreglo = [1,2,3];
+/*
+arreglo.findIndex(
+    function () {
+
+    }
+)
+*/
