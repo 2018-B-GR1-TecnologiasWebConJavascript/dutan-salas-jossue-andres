@@ -133,37 +133,61 @@ ejercicio(
     }
 )
 
+//Ejercicio en clase: Append
 
-const PromesaAppend = (nombreArchivo, contenidoArchivo, contenidoAppend) => {
+const nuevaPromesaAppend = (nombreArchivo, contenidoArchivo) => {
     return new Promise(
         (resolve, reject) => {
-            fs.writeFile(
+            // resolve(); //then -> ok
+            // reject(); //catch -> mal
+            fs.readFile(
                 nombreArchivo,
-                contenidoArchivo,
-                (err) => {
+                'utf8',
+                (err, contenidoLeidoDelArchivo) => {
                     if (err) {
-                        reject(err);
-                    } else {
-                        resolve(contenidoArchivo+contenidoAppend);
-                    }
+                        fs.writeFile(
+                            nombreArchivo,
+                            contenidoArchivo,
+                            (err) => {
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve(contenidoArchivo);
+                                }
 
+                            }
+                        )
+                    } else {
+                        fs.writeFile(
+                            nombreArchivo,
+                            contenidoLeidoDelArchivo + contenidoArchivo,
+                            (err) => {
+                                if (err) {
+                                    // console.log('Error escribiendo');
+                                    reject(undefined, err)
+                                }
+                                else {
+                                    resolve(contenidoLeidoDelArchivo + contenidoArchivo)
+                                }
+                            }
+                        )
+                    }
                 }
             )
         }
-    )
-};
+    );
+}
 
-PromesaAppend(nombre)
+nuevaPromesaAppend('08-ejemplo.txt', '\nAppend')
     .then(
         (contenido) => {
             console.log('ok', contenido)
             //concatenando
-            return nuevaPromesaAppend('07-ejemplo3.txt', contenido, contenido2)
         }
     )
     .then(
-        (contenidoArchivoEscrito)=>{
-            console.log(contenidoArchivoEscrito)
+        (contenidoArchivo)=>{
+            console.log(contenidoArchivo)
         }
     )
     .catch(
@@ -171,6 +195,3 @@ PromesaAppend(nombre)
             console.log('Mal', error)
         }
     );
-
-
-console.log(PromesaAppend())
