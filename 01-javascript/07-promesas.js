@@ -23,7 +23,7 @@ const nuevaPromesa = (nombreArchivo) => {
             )
         }
     );
-}
+};
 
 const nuevaPromesaEscritura = (nombreArchivo, contenidoArchivo) => {
     return new Promise(
@@ -66,11 +66,11 @@ nuevaPromesa(nombre)
         (contenido) => {
             console.log('ok', contenido)
             //concatenando
-            return nuevaPromesaEscritura('07-ejemplo2.txt', contenido + 'Adios amigos')
+            return nuevaPromesaEscritura('07-ejemplo2.txt', contenido + ' Adios amigos')
         }
     )
     .then(
-        (contenidoArchivoEscrito)=>{
+        (contenidoArchivoEscrito) => {
             console.log(contenidoArchivoEscrito)
         }
     )
@@ -80,58 +80,6 @@ nuevaPromesa(nombre)
         }
     );
 
-
-//['A', 'B', 'C']
-
-//0-A.txt 'A'
-//1-B.txt 'B'
-//2-C.txt 'C'
-
-const respuesta = {
-    nombreArchivo: '',
-    contenidoArchivo: '',
-    error: '',
-};
-
-//[respuesta, respuesta, respuesta]
-
-function ejercicio(arregloStrings, callback) {
-
-    const respuestas = [];
-
-    arregloStrings
-        .forEach(
-            (string, indice)=>{
-                const contenido = string;
-                const nombreArchivo = `${indice}-${contenido}.txt`;
-                fs.writeFile(
-                    nombreArchivo,
-                    contenido,
-                    (err)=>{
-                        const respuesta = {
-                            nombreArchivo: nombreArchivo,
-                            contenidoArchivo: contenido,
-                            error: err,
-                        };
-                        respuestas.push(respuesta);
-                        const estaCompletoElArreglo= respuestas.length === arregloStrings.length
-                        if (estaCompletoElArreglo){
-                            callback(respuestas);
-                        }
-                    }
-
-                )
-            }
-        )
-
-}
-
-ejercicio(
-    ['A', 'B', 'C'],
-    (respuestaEjercicio) => {
-        console.log(respuestaEjercicio)
-    }
-)
 
 //Ejercicio en clase: Append
 
@@ -164,7 +112,7 @@ const nuevaPromesaAppend = (nombreArchivo, contenidoArchivo) => {
                             (err) => {
                                 if (err) {
                                     // console.log('Error escribiendo');
-                                    reject(undefined, err)
+                                    reject(err)
                                 }
                                 else {
                                     resolve(contenidoLeidoDelArchivo + contenidoArchivo)
@@ -176,22 +124,71 @@ const nuevaPromesaAppend = (nombreArchivo, contenidoArchivo) => {
             )
         }
     );
-}
+};
 
 nuevaPromesaAppend('08-ejemplo.txt', '\nAppend')
     .then(
-        (contenido) => {
-            console.log('ok', contenido)
-            //concatenando
-        }
-    )
-    .then(
-        (contenidoArchivo)=>{
+        (contenidoArchivo) => {
             console.log(contenidoArchivo)
         }
     )
     .catch(
         (error) => {
             console.log('Mal', error)
+        }
+    );
+
+//Ejercicio de deber
+
+
+//['D', 'E', 'F']
+
+//0-D.txt 'D'
+//1-E.txt 'E'
+//2-F.txt 'F'
+
+const respuesta2 = {
+    nombreArchivo: '',
+    contenidoArchivo: '',
+    error: '',
+};
+
+//[respuesta, respuesta, respuesta]
+
+const ejercicioPromesa = (arregloStrings) => {
+    const respuestas = [];
+    return new Promise(
+        (resolve) => {
+            arregloStrings
+                .forEach(
+                    (string, indice) => {
+                        const contenido = string;
+                        const nombreArchivo = `${indice}-${contenido}.txt`;
+                        fs.writeFile(
+                            nombreArchivo,
+                            contenido,
+                            (err) => {
+                                const respuesta = {
+                                    nombreArchivo: nombreArchivo,
+                                    contenidoArchivo: contenido,
+                                    error: err,
+                                };
+                                respuestas.push(respuesta);
+                                const estaCompletoElArreglo = respuestas.length === arregloStrings.length;
+                                if (estaCompletoElArreglo) {
+                                    resolve(respuestas);
+                                }
+                            }
+                        )
+                    }
+                )
+        }
+    )
+};
+
+ejercicioPromesa(['D', 'E', 'F'])
+    .then(
+        (respuestaEjercicio) => {
+            console.log(respuestaEjercicio)
         }
     );
