@@ -1,171 +1,10 @@
 const rxjs = require('rxjs');
 const fs = require('fs');
-const map = require('rxjs/operators').map; //Importar el map
 const inquirer = require('inquirer');
-const celular = require('./Entidades/Celular');
-// import * as promesa from './Lógica/Promesas';
-const promesa = require('./Lógica/Promesas');
-//Entidades
-/*
-class Cliente {
-    idCliente: number;
-    nombreCliente: string;
-    telefonoCliente: number;
-
-    constructor(id: number, nombre: string, telefono: number) {
-        this.idCliente = id;
-        this.nombreCliente = nombre;
-        this.telefonoCliente = telefono;
-    }
-}
-
-class Detalle {
-    idDetalle: number;
-    celular: Celular;
-    cantidad: number;
-    precioUnitario: Date;
-    precioTotal: number;
-
-    constructor(
-        idDetalle: number,
-        celular: Celular,
-        cantidad: number,
-        precioUnitario: Date,
-        precioTotal: number
-    ) {
-        this.idDetalle = idDetalle;
-        this.celular = celular;
-        this.cantidad = cantidad;
-        this.precioUnitario = precioUnitario;
-        this.precioTotal = precioTotal;
-    }
-}
-
-class Factura {
-    idFactura: number;
-    cliente: Cliente;
-    detalles: Detalle[];
-    fechaFactura: Date;
-    totalAPagar: number;
-
-    constructor(
-        idFactura: number,
-        cliente: Cliente,
-        detalles: Detalle[],
-        fechaFactura: Date,
-        totalAPagar: number) {
-        this.idFactura = idFactura;
-        this.cliente = cliente;
-        this.detalles = detalles;
-        this.fechaFactura = fechaFactura;
-        this.totalAPagar = totalAPagar;
-    }
-
-}
-*/
-/*
-let celulares: Celular[];
-
-const ingresarBase = (path: string) => {
-    return new Promise(
-        (resolve, reject) => {
-            fs.readFile(
-                path,
-                'utf-8',
-                (error, contenidoLeido) => {
-                    if (error) {
-                        reject(error);
-                    } else {
-                        resolve(contenidoLeido);
-                    }
-                }
-            );
-        }
-    )
-};
-
-const ingresarBaseCelular$ = rxjs.from(ingresarBase('Base de Datos/Celular.json'))
-
-ingresarBaseCelular$
-    .subscribe(
-        (valor) => {
-            valor.split("\n").forEach
-            (
-                (v)=> {
-                    celulares.push(v);
-                }
-            )
-        },
-        (error) => {
-            console.log('Error ', error)
-        }
-        ,
-        () => {
-            console.log('Completado')
-        }
-    )
-
-celulares.forEach(
-    (v) => {
-        console.log(v)
-    }
-)
-*/
-function insertarCelular(id, descripcion, precio) {
-    let nuevoCelular = new celular(id, descripcion, precio);
-    const contenido = nuevoCelular.idCelular + ',' + nuevoCelular.descCelular + ',' + nuevoCelular.precioCelular + '\n';
-    insertarContenidoBaseCelular(contenido);
-}
-function insertarContenidoBaseCelular(contenido) {
-    const celular$ = rxjs.from(promesa.promesaAppend('Base de Datos/Celular.txt', contenido));
-    celular$
-        .subscribe((ok) => {
-        console.log('Insertado\n', ok);
-    }, (error) => {
-        console.log('Insertado mal ', error);
-    }, () => {
-        console.log('Completado');
-    });
-}
-function insertarContenidoJSONCelular(contenido) {
-    const celular$ = rxjs.from(promesa.promesaAppend('Base de Datos/Celular.json', contenido));
-    celular$
-        .pipe()
-        .subscribe((ok) => {
-        console.log(ok.Celulares.idCelular);
-        console.log('Insertado\n', ok);
-    }, (error) => {
-        console.log('Insertado mal ', error);
-    }, () => {
-        console.log('Completado');
-    });
-}
-function listarCelulares() {
-    const celularLectura$ = rxjs.from(promesa.promesaLectura('Base de Datos/Celular.txt'));
-    celularLectura$
-        .subscribe((ok) => {
-        console.log('Leido:\n', ok);
-    }, (error) => {
-        console.log('Leido mal ', error);
-    }, () => {
-        console.log('Completado');
-    });
-}
-const celularLecturaJSON$ = rxjs.from(promesa.promesaLecturaJSON('Base de Datos/Celular.json'));
-function borrarCelularJSON(idCelular) {
-    celularLecturaJSON$
-        .subscribe((ok) => {
-        if (idCelular === ok.idCelular) {
-            delete ok[idCelular];
-        }
-    }, (error) => {
-        console.log('Leido mal ', error);
-    }, () => {
-        console.log('Completado');
-    });
-}
-//Inquire
-const questions = [
+const celular = require('./Entidades/EntCelular');
+const cliente = require('./Entidades/EntCliente');
+const clienteFunciones = require('./Lógica/NegCliente');
+const preguntasIngresoCelular = [
     {
         type: 'input',
         name: 'idCelular',
@@ -180,39 +19,124 @@ const questions = [
         type: 'input',
         name: 'precioCelular',
         message: "Cuál es el precio del celular",
-        default: function () {
-            return '';
-        }
     },
 ];
-const opciones = [
+const preguntasIngresoCliente = [
+    {
+        type: 'input',
+        name: 'idCliente',
+        message: 'Cual es el id'
+    },
+    {
+        type: 'input',
+        name: 'nombre',
+        message: 'Cual es el nombre'
+    },
+];
+const opcionesCelular = [
     {
         type: 'list',
-        name: 'opcionesIniciales',
-        message: 'Bienvenido \n Escoja una opción...',
-        choices: ['Ingresar Dispositivo', 'Listar Dispositivos', 'Borrar Celular', 'Salir']
+        name: 'opcionesCelular',
+        message: ' Escoja una opción...',
+        choices: ['Ingresar Celular', 'Buscar Celular', 'Borrar Celular', 'Actualizar Celular', 'Salir']
     }
 ];
-inquirer.prompt(opciones)
-    .then(answers => {
-    if (answers.opcionesIniciales === 'Ingresar Dispositivo') {
-        inquirer.prompt(questions).then(answers => {
-            const res = JSON.stringify(answers, null, '  ');
-            //console.log(res)
-            const coma = ',';
-            insertarContenidoJSONCelular(res + coma);
-            insertarContenidoBaseCelular(res);
-            // fs.writeFileSync('Base de Datos/Celulares.json', res , 'utf-8');
+const opcionesCliente = [
+    {
+        type: 'list',
+        name: 'opcionesCliente',
+        message: 'Escoja una opción...',
+        choices: ['Ingresar Cliente', 'Buscar Cliente', 'Borrar Cliente', 'Actualizar Cliente', 'Salir']
+    }
+];
+const preguntaClienteBusquedaPorNombre = [
+    {
+        type: 'input',
+        name: 'nombre',
+        message: 'Escribe el nombre del usuario'
+    }
+];
+const preguntaClienteNuevoNombre = [
+    {
+        type: 'input',
+        name: 'nombre',
+        message: 'Escribe tu nuevo nombre'
+    }
+];
+function inicializarBase() {
+    return new Promise((resolve, reject) => {
+        fs.readFile('Base de Datos/bdd.json', 'utf-8', (err, contenido) => {
+            if (err) {
+                fs.writeFile('Base de Datos/bdd.json', '{"clientes":[],"celulares":[]}', (err) => {
+                    if (err) {
+                        reject({ mensaje: 'Error' });
+                    }
+                    resolve({ mensaje: 'ok' });
+                });
+            }
+            else {
+                resolve({ mensaje: 'ok' });
+            }
         });
+    });
+}
+async function buscarCliente() {
+    const respuestaUsuarioBusquedaPorNombre = await inquirer.prompt(preguntaClienteBusquedaPorNombre);
+    const usuarioBuscado = await clienteFunciones.buscarClientePorNombre(respuestaUsuarioBusquedaPorNombre.nombre);
+    return usuarioBuscado;
+}
+async function main() {
+    console.log('\x1b[36m%s\x1b[0m', 'Menú Principal');
+    try {
+        await inicializarBase();
+        const respuesta = await inquirer.prompt(opcionesCliente);
+        let clienteBuscado;
+        switch (respuesta.opcionesCliente) {
+            case 'Ingresar Cliente':
+                const respuestaUsuario = await inquirer.prompt(preguntasIngresoCliente);
+                const respuestaIngresarCliente = await clienteFunciones.ingresarCliente(respuestaUsuario);
+                console.log(respuestaIngresarCliente.mensaje);
+                main();
+                break;
+            case 'Buscar Cliente':
+                clienteBuscado = await buscarCliente();
+                if (clienteBuscado) {
+                    console.log('Existe el usuario:\n', clienteBuscado);
+                }
+                else {
+                    console.log('El cliente no existe');
+                }
+                main();
+                break;
+            case 'Borrar Cliente':
+                clienteBuscado = await buscarCliente();
+                if (clienteBuscado) {
+                    const respuestaClienteBorrado = await clienteFunciones.borrarCliente(clienteBuscado);
+                    console.log(respuestaClienteBorrado.mensaje);
+                }
+                else {
+                    console.log('El cliente no existe');
+                }
+                main();
+                break;
+            case 'Actualizar Cliente':
+                clienteBuscado = await buscarCliente();
+                if (clienteBuscado) {
+                    const respuestaNuevoNombre = await inquirer.prompt(preguntaClienteNuevoNombre);
+                    const respuestaActualizarCliente = await clienteFunciones.editarCliente(clienteBuscado, respuestaNuevoNombre.nombre);
+                    console.log(respuestaActualizarCliente.mensaje);
+                }
+                else {
+                    console.log('\x1b[1m', 'El cliente no existe');
+                }
+                main();
+                break;
+            case 'Salir':
+                break;
+        }
     }
-    if (answers.opcionesIniciales === 'Borrar Celular') {
-        borrarCelularJSON(1);
+    catch (e) {
+        console.log('Hubo un error', e);
     }
-    if (answers.opcionesIniciales === 'Listar Dispositivos') {
-        listarCelulares();
-        promesa.promesaLecturaJSON('Base de Datos/Celular.json');
-    }
-    if (answers.opcionesIniciales === 'Salir') {
-        console.log('Gracias por usar la aplicación');
-    }
-});
+}
+main();
