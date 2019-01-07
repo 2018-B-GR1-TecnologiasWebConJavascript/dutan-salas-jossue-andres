@@ -8,6 +8,7 @@ import {RutaPerfilComponent} from "./rutas/ruta-perfil/ruta-perfil.component";
 import {RutaGestionUsuariosComponent} from "./rutas/ruta-gestion-usuarios/ruta-gestion-usuarios.component";
 import {RutaGestionProductosComponent} from "./rutas/ruta-gestion-productos/ruta-gestion-productos.component";
 import {RutaVerDetalleUsuarioComponent} from "./rutas/ruta-ver-detalle-usuario/ruta-ver-detalle-usuario.component";
+import {RutaCrearRazaComponent} from "./rutas/ruta-crear-raza/ruta-crear-raza.component";
 
 //arreglo de rutas
 const routes: Routes = [
@@ -49,6 +50,11 @@ const routes: Routes = [
         // /menu/gestion-usuarios
         path: 'gestion-usuarios',
         component: RutaGestionUsuariosComponent
+
+      },
+      {
+        path: 'crear-raza',
+        component: RutaCrearRazaComponent,
 
       },
       {

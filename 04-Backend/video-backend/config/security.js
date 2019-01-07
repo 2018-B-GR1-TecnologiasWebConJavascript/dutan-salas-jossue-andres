@@ -28,11 +28,11 @@ module.exports.security = {
   *                                                                          *
   ***************************************************************************/
 
-  // cors: {
-  //   allRoutes: false,
-  //   allowOrigins: '*',
-  //   allowCredentials: false,
-  // },
+ cors: {
+     allRoutes: true,
+     allowOrigins: '*', //aqui se ponen las ips que se quiere que se acceda
+     //allowCredentials: false,
+   },
 
 
   /****************************************************************************
