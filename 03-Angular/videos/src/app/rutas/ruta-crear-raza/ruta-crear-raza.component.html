@@ -1,13 +1,87 @@
 <h2>Crear raza</h2>
 
 <p>Crear raza de animales</p>
-<form>
+<!--no validate: No valides Navegador-->
+
+<form #razaFormulario="ngForm" novalidate (submit)="crearRaza(razaFormulario)">
+
+  <pre>
+    formulario valido: {{razaFormulario.valid}}
+    formulario invalido: {{razaFormulario.invalid}}
+    formulario errores: {{razaFormulario.errors | json}}
+    formulario touched: {{razaFormulario.touched}}
+    formulario untouched: {{razaFormulario.untouched}}
+    formulario dirty: {{razaFormulario.dirty}}
+    formulario pristine: {{razaFormulario.pristine}}
+  </pre>
+
   <div>
-  <label for="nombre">Nombre</label>
-  <input id="nombre"
-         type="text"
-         placeholder="Escribe el nombre de una raza"
-  >
+    {{raza.nombre}}
+
+    <pre>
+    nombre valido: {{nombreControl.valid}}
+    nombre invalido: {{nombreControl.invalid}}
+    nombre errores: {{nombreControl.errors | json}}
+    nombre touched: {{nombreControl.touched}}
+    nombre untouched: {{nombreControl.untouched}}
+    nombre dirty: {{nombreControl.dirty}}
+    nombre pristine: {{nombreControl.pristine}}
+    </pre>
+
+    <!--valor por defecto -> value =-->
+    <!--Validaciones:-->
+    <!--Required -> required-->
+    <!--Correos -> email type email-->
+    <!--Numeros -> min = "" max = "" type number-->
+    <!--Logitud -> minlenght maxlenght-->
+    <!--Expresiones regulares -> pattern "^\d+$"-->
+
+    <label for="nombre">Nombre</label>
+    <!--Banana Box Model-->
+    <!--two way data binding-->
+    <!--Componente al HTML y al Componente-->
+    <input id="nombre"
+           name="nombre" required
+           type="text"
+           placeholder="Escribe el nombre de una raza"
+           [(ngModel)]="raza.nombre"
+           #nombreControl="ngModel"
+    >
+    <!--normalmente se llama igual que el nombre-->
+    <p *ngIf="nombreControl.errors"
+    >Mensaje: Hay errores
+    </p>
+
   </div>
-  <button>Crear raza</button>
+  <div>
+    {{raza.apellido}}
+    <pre>
+    apellido valido: {{apellidoControl.valid}}
+    apellido invalido: {{apellidoControl.invalid}}
+    apellido errores: {{apellidoControl.errors | json}}
+    apellido touched: {{apellidoControl.touched}}
+    apellido untouched: {{apellidoControl.untouched}}
+    apellido dirty: {{apellidoControl.dirty}}
+    apellido pristine: {{apellidoControl.pristine}}
+    </pre>
+
+
+    <label for="apellido">apellido</label>
+    <!--Banana Box Model-->
+    <!--two way data binding-->
+    <!--Componente al HTML y HTML al Componente-->
+    <input id="apellido"
+           name="apellido"
+           type="text"
+           placeholder="Escribe el nombre de una raza"
+           [(ngModel)]="raza.apellido"
+           #apellidoControl="ngModel"
+    >
+    <!--normalmente se llama igual que el nombre-->
+
+  </div>
+  <button type="submit"
+  [disabled]="razaFormulario.invalid"
+  >Crear raza
+  </button>
 </form>

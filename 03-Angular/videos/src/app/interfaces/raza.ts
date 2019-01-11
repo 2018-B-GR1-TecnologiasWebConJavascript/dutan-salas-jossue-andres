@@ -1,8 +1,8 @@
 //raza
 
 export interface Raza {
-  id: number;
+  id?: number;
   nombre:string;
-  createdAt: number;
-  updatedAt: number;
+  createdAt?: number;
+  updatedAt?: number;
 }
