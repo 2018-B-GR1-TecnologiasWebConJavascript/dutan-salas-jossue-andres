@@ -48,8 +48,17 @@
            #nombreControl="ngModel"
     >
     <!--normalmente se llama igual que el nombre-->
-    <p *ngIf="nombreControl.errors"
-    >Mensaje: Hay errores
+    <p *ngIf="nombreControl.errors">Mensaje:
+      <span *ngIf="nombreControl.errors.pattern">
+        Ingrese solo letras
+      </span>
+      <span *ngIf="nombreControl.errors.required">
+        Campo Requerido
+      </span>
+      <span *ngIf="nombreControl.errors.email">
+        Ese no parece un correo
+      </span>
+
     </p>
 
   </div>
