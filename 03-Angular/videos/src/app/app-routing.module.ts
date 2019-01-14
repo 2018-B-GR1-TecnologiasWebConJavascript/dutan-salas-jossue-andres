@@ -9,6 +9,7 @@ import {RutaGestionUsuariosComponent} from "./rutas/ruta-gestion-usuarios/ruta-g
 import {RutaGestionProductosComponent} from "./rutas/ruta-gestion-productos/ruta-gestion-productos.component";
 import {RutaVerDetalleUsuarioComponent} from "./rutas/ruta-ver-detalle-usuario/ruta-ver-detalle-usuario.component";
 import {RutaCrearRazaComponent} from "./rutas/ruta-crear-raza/ruta-crear-raza.component";
+import {RutaActualizarRazaComponent} from "./rutas/ruta-actualizar-raza/ruta-actualizar-raza.component";
 
 //arreglo de rutas
 const routes: Routes = [
@@ -51,6 +52,10 @@ const routes: Routes = [
         path: 'gestion-usuarios',
         component: RutaGestionUsuariosComponent
 
+      },{
+        // menu/crear-raza
+        path: 'actualizar-raza/:idRaza',
+        component: RutaActualizarRazaComponent,
       },
       {
         path: 'crear-raza',
