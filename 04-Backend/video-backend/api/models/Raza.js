@@ -16,6 +16,14 @@ module.exports = {
     mascotas:{
       collection: 'Mascota',
       via: 'idRaza',
+    },
+    username:{
+      type: 'string',
+      required: true
+    },
+    password:{
+      type: 'string',
+      required: true
     }
 
   },

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {RazaRestService} from "../../servicios/rest/raza-rest.service";
-import {Raza} from "../../interfaces/raza";
-import {NgForm} from "@angular/forms";
+import {RazaRestService} from '../../servicios/rest/raza-rest.service';
+import {Raza} from '../../interfaces/raza';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-ruta-crear-raza',
@@ -11,7 +11,7 @@ import {NgForm} from "@angular/forms";
 export class RutaCrearRazaComponent implements OnInit {
 
   raza: RazaEjemplo = {
-    nombre: '',
+    nombre: '123123123123',
     apellido: ''
   };
 
@@ -21,36 +21,51 @@ export class RutaCrearRazaComponent implements OnInit {
   ngOnInit() {
   }
 
-  crearRaza(formulario: NgForm) { //
-    console.log('Formulario', formulario);
+  crearRaza(razaObjeto) {
 
-    if (this.nombreContieneA((this.raza.nombre.toString()))) {
-      const crearRaza$ = this._razaRestService
-        .create(this.raza.nombre);
+    // if (this.nombreContieneA(razaObjeto.nombre.toString())) {
+    const crearRaza$ = this._razaRestService
+      .create(razaObjeto.nombre, razaObjeto.username,razaObjeto.password);
 
-      crearRaza$
-        .subscribe(
-          (raza: Raza) => {
-            console.log('Raza', raza);
-            alert(`Raza creada: ${raza.nombre}`)
-          },
-          (error) => {
-            console.log('Error: ', error);
-          },
-        )
-    }
-    else {
-      alert('Error, no contiene una letra A')
-    }
+    crearRaza$
+      .subscribe(
+        (raza: Raza) => {
+          console.log('Raza');
+          alert(`Raza creada: ${raza.nombre}`);
+        },
+        (error) => {
+          console.error('Error: ', error);
+        }
+      );
+
+    // } else {
+    //   alert('ERROR, No contiene una letra A');
+    // }
   }
 
-  nombreContieneA(nombre:string):boolean {
-    return nombre.toLowerCase().includes('a')
+  nombreContieneA(nombre: string): boolean {
+    return nombre.toLowerCase().includes('a');
+  }
+
+
+  mostrarEnConsola(objeto) {
+    console.log(objeto);
+    console.log(objeto.value);
   }
 
 }
+
 
 interface RazaEjemplo {
-  nombre: string;
+  nombre: string | number;
   apellido: string;
 }
+
+
+
+
+
+
+
+
+

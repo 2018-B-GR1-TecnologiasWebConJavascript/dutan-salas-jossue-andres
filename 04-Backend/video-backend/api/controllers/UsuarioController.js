@@ -6,7 +6,9 @@
  */
 
 module.exports = {
-  
+  holaMundo: (peticion, respuesta) =>{
+    return respuesta.ok('Hola')
+  }
 
 };
 
