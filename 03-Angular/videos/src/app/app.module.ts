@@ -20,6 +20,12 @@ import { RutaActualizarRazaComponent } from './rutas/ruta-actualizar-raza/ruta-a
 import { ImagenPeliculaComponent } from './componentes/imagen-pelicula/imagen-pelicula.component';
 import { FormularioRazaComponent } from './componentes/formulario-raza/formulario-raza.component';
 import { LoginComponent } from './componentes/login/login.component';
+import {AuthService} from "./servicios/rest/auth.service";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ButtonModule} from "primeng/button";
+import {TableModule} from "primeng/table";
+import {InputTextModule, Messages, MessagesModule} from "primeng/primeng";
+import {MessageModule} from "primeng/message";
 
 @NgModule({
   declarations: [
@@ -42,11 +48,18 @@ import { LoginComponent } from './componentes/login/login.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule, //Acceso a un servicio HttpClient
-    FormsModule
+    FormsModule, //validaciones
+    BrowserAnimationsModule,
+    ButtonModule,
+    TableModule,
+    InputTextModule,
+    MessageModule,
+    MessagesModule
   ], //modules
   providers: [
     UsuarioServiceService,
-    RazaRestService
+    RazaRestService,
+    AuthService
   ], //Services
   bootstrap: [AppComponent] //Componente Principal
 })

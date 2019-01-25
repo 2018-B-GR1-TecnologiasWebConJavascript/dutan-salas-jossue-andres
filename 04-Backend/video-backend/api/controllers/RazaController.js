@@ -35,8 +35,11 @@ module.exports = {
 
     console.log(usuarioLogeado);
 
-    if(usuarioLogeado){
-      return res.ok(usuarioLogeado);
+    const error = usuarioLogeado.length === 0;
+
+
+    if(!error){
+      return res.ok(usuarioLogeado[0]);
     }else {
       return res.badRequest({
         mensaje: 'Usuario Invalido'
